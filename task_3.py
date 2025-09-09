@@ -44,18 +44,23 @@ algorithms = {
     "Python": lambda arr: sorted(arr)
 }
 
-sizes = [100, 10000]
+sizes = [100, 1000, 10000]
 data_types = {
     "random": lambda n: [random.randint(1, n) for _ in range(n)],
     "sorted": lambda n: list(range(n)),
     "reversed": lambda n: list(range(n, 0, -1))
 }
 
+print("Порівняльний аналіз алгоритмів сортування")
+print("=" * 50)
+
 for data_name, data_func in data_types.items():
-    print(f"{data_name}:")
+    print(f"\nТип даних: {data_name}")
+    print("-" * 30)
     for size in sizes:
+        print(f"Розмір масиву: {size}")
         data = data_func(size)
         for name, func in algorithms.items():
-            time_taken = timeit.timeit(lambda: func(data), number=1)
-            print(f"  {name} n={size}: {time_taken:.4f}s")
-    print()
+            time_taken = timeit.timeit(lambda f=func, d=data: f(d), number=1)
+            print(f"  {name:<10}: {time_taken:.6f}s")
+        print()
